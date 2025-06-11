@@ -12,7 +12,7 @@ public class LoadScene : MonoBehaviour
 
     public void paused(){
         Time.timeScale = 0;
-    }
+    }   
     public void resume(){
         Time.timeScale = 1;
     }
@@ -26,5 +26,11 @@ public class LoadScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+      public void QuitGame()
+    {
+        Debug.Log("Game Keluar");
+        Application.Quit();
     }
 }
