@@ -13,8 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
-    private PlayerController playerController; // tambahkan PlayerInputActions
-
+    private PlayerController playerController;
     // Untuk input dari button UI
     private float mobileInputX = 0f;
 
@@ -44,7 +43,9 @@ public class PlayerMovement : MonoBehaviour
         playerController.Movement.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         playerController.Movement.Move.canceled += ctx => moveInput = Vector2.zero;
 
-        playerController.Movement.Jump.performed += ctx => Jump();
+        // playerController.Movement.Jump.performed += ctx => Jump();
+        playerController.Movement.Jump.started += ctx => Jump();
+
 
         
     }
