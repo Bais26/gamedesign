@@ -33,4 +33,9 @@ public class LoadScene : MonoBehaviour
         Debug.Log("Game Keluar");
         Application.Quit();
     }
+     public void LoadMainMenu()
+    {
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene("MainMenu");
+    }
 }

@@ -19,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 moveInput;
     private bool isJumping = false;
+    [Header("Sound Effects")]
+    public AudioClip jumpSound;
+    public AudioClip deathSound;
+    private AudioSource audioSource;
+
 
     private enum MovementState { idle, walk, jump, fall, run}
 
@@ -32,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
 
         playerController = new PlayerController(); 
     }
@@ -135,6 +141,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isJumping = true;
+             if (jumpSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(jumpSound);
+        }
         }
     }
 
@@ -154,6 +164,27 @@ public class PlayerMovement : MonoBehaviour
         else if (mobileInputX == -1f)
             mobileInputX = 0f;
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.collider.CompareTag("KillZone"))
+    {
+        if (deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
+
+        // Misal: reload level setelah delay
+        StartCoroutine(RestartAfterDelay(1.5f));
+    }
+}
+
+private IEnumerator RestartAfterDelay(float delay)
+{
+    yield return new WaitForSeconds(delay);
+    UnityEngine.SceneManagement.SceneManager.LoadScene(
+        UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+}
+
 
     // Fungsi ini dipanggil saat tombol lompat ditekan
     public void MobileJump()
